@@ -4,6 +4,7 @@ __version__ = '1.0.0'
 __author__ = 'Angel1900'
 __description__ = 'Autonomous prediction market trading system for Kalshi'
 
-from src.config import Config
+# Don't import Config at module level to avoid circular imports
+# Import it in your scripts with: from src.config import Config
 
-__all__ = ['Config']
+__all__ = ['__version__', '__author__', '__description__']
