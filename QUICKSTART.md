@@ -1,95 +1,158 @@
-# Quick Start Guide - Simplified Setup
+# 🚀 Super Easy Setup - Like OpenClaw!
 
-Get the Kalshi AI Trading Bot running in **10 minutes** with just 3 API keys.
-
-## 📦 What You Need
-
-**Required (3 keys only):**
-- ✅ Docker Desktop ([install here](https://www.docker.com/products/docker-desktop))
-- ✅ Kalshi API credentials ([sign up at kalshi.com](https://kalshi.com))
-- ✅ OpenAI API key ([get from platform.openai.com](https://platform.openai.com))
-
-**Optional (for better accuracy):**
-- 🎯 Anthropic API key ([get from console.anthropic.com](https://console.anthropic.com)) - Bot uses **ensemble mode** with GPT-4 + Claude if provided
-- 🔔 Discord webhook URL (for alerts)
+**Setup time: 2 minutes** | **No manual file editing!**
 
 ---
 
-## 🚀 Launch in 4 Commands
+## 🎯 **One-Command Setup**
 
-### **Step 1: Clone & Setup** (30 seconds)
+### **Step 1: Clone Repository**
 
 ```bash
 git clone https://github.com/Angel1900/kalshi-ai-trading-bot.git
 cd kalshi-ai-trading-bot
-cp .env.example .env
 ```
 
-### **Step 2: Add Your API Keys** (2 minutes)
-
-**Option A: Quick edit (Mac/Linux)**
-```bash
-nano .env
-```
-
-**Option B: Quick edit (Windows)**
-```bash
-notepad .env
-```
-
-**Minimal config - Only fill these 3 lines:**
-```bash
-# From kalshi.com dashboard
-KALSHI_API_KEY=your_key_here
-KALSHI_API_SECRET=your_secret_here
-
-# From platform.openai.com/api-keys
-OPENAI_API_KEY=sk-your-key-here
-
-# IMPORTANT: Keep false for paper trading!
-LIVE_TRADING=false
-```
-
-**That's it!** Leave everything else as default.
-
-**Optional: Add Claude for better accuracy**
-```bash
-# From console.anthropic.com (optional)
-ANTHROPIC_API_KEY=sk-ant-your-key-here
-```
-
-### **Step 3: Start Everything** (3 minutes)
+### **Step 2: Run Interactive Setup**
 
 ```bash
-docker-compose up -d --build
+chmod +x setup.sh
+./setup.sh
 ```
 
-This starts:
-- ✅ Trading bot (GPT-4 powered)
-- ✅ PostgreSQL database
-- ✅ Redis cache
-- ✅ Grafana dashboard
-- ✅ Prometheus metrics
+**That's it!** The script will:
+- ✅ Ask for your 3 API keys
+- ✅ Automatically create .env file
+- ✅ Validate Docker is running
+- ✅ Start all services
+- ✅ Show you the dashboard URL
 
-### **Step 4: Verify It's Running**
-
-```bash
-# Check all containers are up
-docker-compose ps
-
-# Watch bot logs (look for "All systems initialized")
-docker-compose logs -f bot
-```
-
-Press `Ctrl+C` to exit logs.
+**No manual editing needed!** Just answer the prompts.
 
 ---
 
-## 📊 Open Dashboard
+## 🔑 **What You'll Be Asked**
 
-**Grafana** (Real-time trading dashboard):
+The setup script will ask for:
+
+### **Required (3 keys):**
+1. **Kalshi API Key** - Get from [kalshi.com](https://kalshi.com) → Settings → API Keys
+2. **Kalshi API Secret** - Same page as above
+3. **OpenAI API Key** - Get from [platform.openai.com/api-keys](https://platform.openai.com/api-keys)
+
+### **Optional (just press Enter to skip):**
+4. **Anthropic API Key** - For ensemble mode (2-3% better accuracy)
+5. **Discord Webhook** - For trade alerts
+6. **Live Trading** - Keep as "No" for paper trading
+
+---
+
+## 📹 **What It Looks Like**
+
 ```
-URL: http://localhost:3000
+╔═══════════════════════════════════════════════════════════╗
+║                                                           ║
+║   🤖 Kalshi AI Trading Bot - Interactive Setup 🤖        ║
+║                                                           ║
+║   Get your bot running in 2 minutes!                      ║
+║                                                           ║
+╚═══════════════════════════════════════════════════════════╝
+
+✅ Docker is running
+
+Welcome! I'll help you set up your trading bot.
+You'll need 3 API keys. Press Enter after each one.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1/3: Kalshi API Key
+Get it from: https://kalshi.com → Settings → API Keys
+Enter your Kalshi API Key: [you type here]
+✅ Kalshi API Key saved
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2/3: Kalshi API Secret
+Enter your Kalshi API Secret: [you type here]
+✅ Kalshi API Secret saved
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3/3: OpenAI API Key
+Get it from: https://platform.openai.com/api-keys
+Enter your OpenAI API Key: [you type here]
+✅ OpenAI API Key saved
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+OPTIONAL: Anthropic API Key (for better accuracy)
+Press Enter to skip (bot will use OpenAI only)
+Enter your Anthropic API Key: [press Enter to skip]
+⚠️  Skipped - Using OpenAI only mode
+
+╔═══════════════════════════════════════════════════════════╗
+║                                                           ║
+║   ✅ Configuration Complete!                              ║
+║                                                           ║
+╚═══════════════════════════════════════════════════════════╝
+
+Your settings:
+  Kalshi API: Configured ✓
+  OpenAI API: Configured ✓
+  Trading Mode: PAPER (Simulated)
+
+Starting your trading bot...
+
+✅ Bot is starting!
+
+╔═══════════════════════════════════════════════════════════╗
+║                                                           ║
+║   🚀 Your Trading Bot is Running! 🚀                      ║
+║                                                           ║
+╚═══════════════════════════════════════════════════════════╝
+
+Next Steps:
+
+1. View bot logs:
+   docker-compose logs -f bot
+
+2. Open dashboard:
+   http://localhost:3000
+   Username: admin
+   Password: admin
+
+💡 Remember: You're in paper trading mode (no real money).
+   Run for 2-4 weeks, then enable live trading if profitable.
+
+Good luck! 🎯💰
+```
+
+---
+
+## 🛠️ **Useful Commands**
+
+```bash
+# View real-time logs
+docker-compose logs -f bot
+
+# Stop the bot
+docker-compose down
+
+# Restart the bot
+docker-compose restart bot
+
+# Run setup again (change settings)
+./setup.sh
+
+# Check container status
+docker-compose ps
+```
+
+---
+
+## 📊 **Open Your Dashboard**
+
+Once setup completes, open your browser:
+
+```
+http://localhost:3000
+
 Username: admin
 Password: admin
 ```
@@ -98,121 +161,11 @@ You'll see:
 - Current bankroll
 - Open positions
 - Trade history
-- Win rate & profit charts
+- Performance charts
 
 ---
 
-## 🎯 AI Modes Explained
-
-### **OpenAI Only Mode** (Default if no Anthropic key)
-- Uses GPT-4 for probability estimation
-- Faster response times
-- Lower API costs (~$30/month)
-- Still highly accurate
-
-### **Ensemble Mode** (If Anthropic key provided)
-- Uses GPT-4 (55%) + Claude (45%)
-- Better calibration on edge cases
-- Slightly higher API costs (~$55/month)
-- ~2-3% accuracy improvement
-
-**Both modes are profitable. Start with OpenAI only to save costs.**
-
----
-
-## 💰 Paper Trading (2-4 weeks recommended)
-
-**What happens:**
-- Bot places simulated trades (no real money)
-- All trades logged in database
-- Performance tracked in Grafana
-- Validates strategy before risking capital
-
-**Check these before enabling live trading:**
-```bash
-# View bot logs
-docker-compose logs bot | tail -100
-
-# Check database has trades
-docker-compose exec postgres psql -U kalshi_user -d kalshi_db
-SELECT COUNT(*) FROM positions;
-```
-
----
-
-## ⚡ Enable Live Trading
-
-**After 2-4 weeks of successful paper trading:**
-
-```bash
-# 1. Deposit $50 to Kalshi account
-
-# 2. Edit .env
-nano .env
-
-# 3. Change this line:
-LIVE_TRADING=false
-# to:
-LIVE_TRADING=true
-
-# 4. Restart bot
-docker-compose restart bot
-
-# 5. Watch first real trade
-docker-compose logs -f bot
-```
-
----
-
-## 🛑 Common Issues & Fixes
-
-### **Bot says "ANTHROPIC_API_KEY not set"**
-✅ **This is just a warning!** Bot will use OpenAI only mode. Ignore it or add Anthropic key for ensemble.
-
-### **"docker-compose: command not found"**
-```bash
-# Install Docker Compose
-sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-```
-
-### **"Port 3000 already in use"**
-```bash
-# Find what's using it
-lsof -i :3000
-
-# Kill it
-kill -9 <PID>
-
-# Or restart
-docker-compose down && docker-compose up -d
-```
-
-### **"OpenAI API error: Invalid key"**
-```bash
-# Test your key directly
-curl https://api.openai.com/v1/models \
-  -H "Authorization: Bearer YOUR_KEY_HERE"
-
-# If error, regenerate key at platform.openai.com
-```
-
-### **Bot not placing trades**
-```bash
-# Check logs for errors
-docker-compose logs bot | grep ERROR
-
-# Verify Kalshi connection
-curl https://api.kalshi.com/
-
-# Check markets are being discovered
-docker-compose exec postgres psql -U kalshi_user -d kalshi_db
-SELECT COUNT(*) FROM markets;
-```
-
----
-
-## 📈 What to Expect
+## 🎯 **What Happens Next**
 
 ### **First 10 minutes:**
 - Bot discovers 200+ Kalshi markets
@@ -221,114 +174,147 @@ SELECT COUNT(*) FROM markets;
 
 ### **First hour:**
 - 2-5 positions opened
-- Real-time updates in Grafana
-- Discord alerts (if configured)
+- Real-time dashboard updates
+- Automated position management
 
-### **First week (paper trading):**
+### **First week:**
 - 20-40 trades completed
-- Win rate stabilizes around 60-65%
-- Daily profit ~$0.30-0.75
+- Win rate stabilizes (60-65%)
+- Daily profit: $0.30-0.75
 
 ---
 
-## 📊 Performance Targets
+## ✅ **Paper Trading Checklist (2-4 Weeks)**
 
-**Good paper trading results:**
-- ✅ Win rate > 55%
-- ✅ Daily profit > $0.20
-- ✅ Max drawdown < 15%
-- ✅ No API errors
+Monitor in Grafana dashboard:
 
-**If you hit these → Enable live trading**
+- [ ] 50+ trades completed
+- [ ] Win rate > 55%
+- [ ] Daily profit > $0.20
+- [ ] Max drawdown < 15%
+- [ ] No API errors
+
+**Once all boxes checked → Enable live trading**
 
 ---
 
-## 🔑 Quick Commands
+## 💰 **Enable Live Trading**
+
+**After successful paper trading:**
 
 ```bash
-# View logs
-docker-compose logs -f bot
+# Run setup again
+./setup.sh
 
-# Stop everything
-docker-compose down
+# When asked "Enable live trading?"
+# Type: y
 
-# Restart bot
-docker-compose restart bot
-
-# View database
-docker-compose exec postgres psql -U kalshi_user -d kalshi_db
-
-# Check Redis cache
-docker-compose exec redis redis-cli
-
-# Update code
-git pull origin main
-docker-compose up -d --build
-
-# Delete all data (fresh start)
-docker-compose down -v
+# Deposit $50 to Kalshi first!
 ```
 
 ---
 
-## 💸 Monthly Costs
+## 🆘 **Troubleshooting**
+
+### **"Docker is not running"**
+```bash
+# Open Docker Desktop app
+# Wait for "Docker is running" message
+# Run ./setup.sh again
+```
+
+### **"Permission denied: ./setup.sh"**
+```bash
+chmod +x setup.sh
+./setup.sh
+```
+
+### **Want to change settings?**
+```bash
+# Just run setup again!
+./setup.sh
+```
+
+### **Need to see logs?**
+```bash
+docker-compose logs -f bot
+```
+
+### **Bot not trading?**
+```bash
+# Check for errors
+docker-compose logs bot | grep ERROR
+
+# Verify services running
+docker-compose ps
+```
+
+---
+
+## 💸 **Monthly Costs**
 
 **OpenAI Only Mode:**
-- Server: $12 (DigitalOcean)
-- OpenAI API: $25-35 (1,000 estimates/month)
-- **Total: ~$37-47/month**
-
-**Ensemble Mode (GPT + Claude):**
-- Server: $12
-- OpenAI API: $25-35
-- Anthropic API: $20-30
-- **Total: ~$57-77/month**
-
-**Break-even:** Bot needs +$1.50/day profit ($45/month)
-**Realistic profit:** $1.80/day ($54/month) = $7-17/month net
-
----
-
-## 🎯 Next Steps
-
-1. ✅ **Paper trade 2-4 weeks**
-2. ✅ **Monitor Grafana daily**
-3. ✅ **Validate 55%+ win rate**
-4. ✅ **Enable live trading with $50**
-5. ✅ **Reinvest profits to scale**
-
----
-
-## 🆘 Support
-
-- **GitHub Issues**: [Report bugs](https://github.com/Angel1900/kalshi-ai-trading-bot/issues)
-- **Full Docs**: Read `README.md` in repo
-- **Config Options**: Check `.env.example` for all settings
-
----
-
-## ⚠️ Risk Warning
-
-Prediction market trading carries risk. This bot doesn't guarantee profits.
-
-- ✅ Start with paper trading
-- ✅ Use only capital you can afford to lose
-- ✅ Monitor regularly
-- ✅ Scale slowly
-
----
-
-## ✅ Ready!
-
-**Your bot is now running 24/7 with just OpenAI!**
-
-Minimal setup:
-```bash
-cd kalshi-ai-trading-bot
-docker-compose up -d
-docker-compose logs -f bot
+```
+Server: $12/month (DigitalOcean)
+OpenAI: $25-35/month
+────────────────────
+Total: ~$37-47/month
 ```
 
-Open Grafana: http://localhost:3000
+**Expected Profit:**
+```
+Conservative: $0.50/day = $15/month
+Realistic:    $1.80/day = $54/month ✓
+Optimistic:   $4.50/day = $135/month
+```
 
-**Good luck!** 🚀
+**Break-even:** +$1.50/day  
+**Realistic net profit:** $7-17/month after costs
+
+---
+
+## 📚 **More Info**
+
+- **Full Architecture**: [README.md](README.md)
+- **Manual Setup**: See below for non-interactive setup
+- **GitHub Issues**: [Report bugs](https://github.com/Angel1900/kalshi-ai-trading-bot/issues)
+
+---
+
+## 🔧 **Manual Setup (Alternative)**
+
+If you prefer manual configuration:
+
+```bash
+# 1. Clone
+git clone https://github.com/Angel1900/kalshi-ai-trading-bot.git
+cd kalshi-ai-trading-bot
+
+# 2. Create config
+cp .env.example .env
+
+# 3. Edit manually
+nano .env  # or use any text editor
+
+# 4. Add your 3 API keys:
+# KALSHI_API_KEY=...
+# KALSHI_API_SECRET=...
+# OPENAI_API_KEY=...
+
+# 5. Start
+docker-compose up -d --build
+```
+
+---
+
+## ✅ **You're Ready!**
+
+**Complete setup in one command:**
+
+```bash
+git clone https://github.com/Angel1900/kalshi-ai-trading-bot.git && cd kalshi-ai-trading-bot && chmod +x setup.sh && ./setup.sh
+```
+
+**Then open:** http://localhost:3000
+
+**Good luck, Marine!** 🎯💰
