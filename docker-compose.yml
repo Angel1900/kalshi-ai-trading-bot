@@ -9,18 +9,27 @@ services:
     container_name: kalshi_bot
     restart: unless-stopped
     environment:
+      # Kalshi API (REQUIRED)
       - KALSHI_API_KEY=${KALSHI_API_KEY}
       - KALSHI_API_SECRET=${KALSHI_API_SECRET}
-      - KALSHI_SANDBOX=${KALSHI_SANDBOX}
+      - KALSHI_SANDBOX=${KALSHI_SANDBOX:-false}
+      
+      # AI Models (OpenAI required, Anthropic optional)
       - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
-      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
-      - DATABASE_URL=${DATABASE_URL}
-      - REDIS_URL=${REDIS_URL}
-      - INITIAL_BANKROLL=${INITIAL_BANKROLL}
-      - MAX_RISK_PER_TRADE=${MAX_RISK_PER_TRADE}
-      - LIVE_TRADING=${LIVE_TRADING}
-      - LOG_LEVEL=${LOG_LEVEL}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}  # Optional - leave empty for OpenAI only
+      
+      # Monitoring (optional)
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL:-}
+      
+      # Database
+      - DATABASE_URL=${DATABASE_URL:-postgresql://kalshi_user:kalshi_password@postgres:5432/kalshi_db}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
+      
+      # Trading params
+      - INITIAL_BANKROLL=${INITIAL_BANKROLL:-50.0}
+      - MAX_RISK_PER_TRADE=${MAX_RISK_PER_TRADE:-1.0}
+      - LIVE_TRADING=${LIVE_TRADING:-false}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
     depends_on:
       - postgres
       - redis
@@ -104,7 +113,6 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=${GF_ADMIN_PASSWORD:-admin}
       - GF_SECURITY_ADMIN_USER=admin
       - GF_USERS_ALLOW_SIGN_UP=false
-      - GF_RENDERING_SERVER_URL=http://renderer:8081/render
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
