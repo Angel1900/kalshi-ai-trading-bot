@@ -22,10 +22,17 @@ class KalshiConfig:
 class AIConfig:
     """AI model configuration"""
     openai_key: str = os.getenv('OPENAI_API_KEY', '')
-    anthropic_key: str = os.getenv('ANTHROPIC_API_KEY', '')
-    ensemble_enabled: bool = os.getenv('PROBABILITY_MODEL_ENSEMBLE', 'true').lower() == 'true'
-    gpt_weight: float = float(os.getenv('GPT_MODEL_WEIGHT', '0.55'))
-    claude_weight: float = float(os.getenv('CLAUDE_MODEL_WEIGHT', '0.45'))
+    anthropic_key: str = os.getenv('ANTHROPIC_API_KEY', '')  # Optional
+    
+    # If Anthropic key not provided, use OpenAI only
+    ensemble_enabled: bool = (
+        os.getenv('PROBABILITY_MODEL_ENSEMBLE', 'auto').lower() == 'true' or
+        (os.getenv('PROBABILITY_MODEL_ENSEMBLE', 'auto').lower() == 'auto' and 
+         os.getenv('ANTHROPIC_API_KEY', '') != '')
+    )
+    
+    gpt_weight: float = 1.0 if not ensemble_enabled else float(os.getenv('GPT_MODEL_WEIGHT', '0.55'))
+    claude_weight: float = 0.0 if not ensemble_enabled else float(os.getenv('CLAUDE_MODEL_WEIGHT', '0.45'))
     temperature: float = float(os.getenv('MODEL_TEMPERATURE', '0.3'))
     max_tokens: int = int(os.getenv('MODEL_MAX_TOKENS', '1000'))
 
@@ -75,6 +82,8 @@ class MonitoringConfig:
     log_level: str = os.getenv('LOG_LEVEL', 'INFO')
     log_file: str = os.getenv('LOG_FILE', '/app/logs/trading_bot.log')
     log_to_stdout: bool = os.getenv('LOG_TO_STDOUT', 'true').lower() == 'true'
+    log_max_size_mb: int = int(os.getenv('LOG_MAX_SIZE_MB', '100'))
+    log_backup_count: int = int(os.getenv('LOG_BACKUP_COUNT', '5'))
 
 
 class Config:
@@ -91,16 +100,19 @@ class Config:
     def validate(cls) -> bool:
         """Validate all configuration values"""
         errors = []
+        warnings = []
         
-        # Check API keys
+        # Check required API keys
         if not cls.kalshi.api_key:
             errors.append('KALSHI_API_KEY not set')
         if not cls.kalshi.api_secret:
             errors.append('KALSHI_API_SECRET not set')
         if not cls.ai.openai_key:
-            errors.append('OPENAI_API_KEY not set')
+            errors.append('OPENAI_API_KEY not set (required)')
+        
+        # Check optional keys
         if not cls.ai.anthropic_key:
-            errors.append('ANTHROPIC_API_KEY not set')
+            warnings.append('ANTHROPIC_API_KEY not set - using OpenAI only (ensemble disabled)')
         
         # Check trading parameters
         if cls.trading.max_risk_per_trade <= 0:
@@ -110,11 +122,24 @@ class Config:
         if cls.trading.initial_bankroll < 10:
             errors.append('INITIAL_BANKROLL must be at least $10')
         
+        # Display warnings
+        if warnings:
+            print('\n⚠️  Configuration warnings:')
+            for warning in warnings:
+                print(f'  - {warning}')
+        
+        # Display errors
         if errors:
-            print('Configuration errors:')
+            print('\n❌ Configuration errors:')
             for error in errors:
                 print(f'  - {error}')
             return False
+        
+        # Display AI mode
+        if cls.ai.ensemble_enabled:
+            print('\n🤖 AI Mode: Ensemble (GPT-4 + Claude)')
+        else:
+            print('\n🤖 AI Mode: OpenAI Only (GPT-4)')
         
         return True
 
@@ -122,6 +147,6 @@ class Config:
 if __name__ == '__main__':
     # Test configuration
     if Config.validate():
-        print('✅ Configuration is valid')
+        print('\n✅ Configuration is valid')
     else:
-        print('❌ Configuration has errors')
+        print('\n❌ Configuration has errors')
