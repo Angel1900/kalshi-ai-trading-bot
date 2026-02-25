@@ -213,7 +213,9 @@ echo -e "${YELLOW}Building and starting containers...${NC}"
 echo -e "${YELLOW}(This takes 2-3 minutes the first time)${NC}"
 echo ""
 
-docker-compose up -d --build
+# Use --no-cache to ensure fresh package installation
+docker-compose build --no-cache bot
+docker-compose up -d
 
 echo ""
 echo -e "${GREEN}✅ Bot is starting!${NC}"
